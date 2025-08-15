@@ -1,4 +1,3 @@
--- USE LAB2;
 DROP PROCEDURE IF EXISTS AddSubscriberIfNotExists;
 
 DELIMITER $$

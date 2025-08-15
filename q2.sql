@@ -1,4 +1,5 @@
-DROP PROCEDURE IF EXISTS GetWatchHistoryBySubscriber;
+-- USE LAB2;
+-- DROP PROCEDURE IF EXISTS GetWatchHistoryBySubscriber;
 
 DELIMITER $$
 CREATE PROCEDURE GetWatchHistoryBySubscriber(IN sub_id INT)
