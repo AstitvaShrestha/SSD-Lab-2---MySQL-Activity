@@ -1,10 +1,15 @@
-DROP PROCEDURE IF EXISTS AddSubscriberIfNotExists;
+-- USE LAB2;
+-- DROP PROCEDURE IF EXISTS AddSubscriberIfNotExists;
 
-DELIMITER $$
+/* changing delimeter to $$, to ensure entire procedure definition is passed as single statement and avoid syntax error */
+DELIMITER $$ 
+
 CREATE PROCEDURE AddSubscriberIfNotExists(IN subName VARCHAR(100))
 BEGIN
-	DECLARE msg VARCHAR(255);
+	
+    DECLARE msg VARCHAR(255); /* variable to store and print if subscriber already exists or not */
 
+	/* If subscriber already exist print message 'subscriber already exists' */
 	IF EXISTS (SELECT *
 				FROM  Subscribers
                 WHERE SubscriberName = subName) 
@@ -12,7 +17,7 @@ BEGIN
         
         SET msg = CONCAT('Subscriber "', subName, '" already exists!');
             
-    -- Adds subscriber name, SubscriberID based on max SubscriberID and today's date as SubscriptionDate        
+    /* Adds subscriber name and (default value = SubscriberID based on max SubscriberID and today's date as SubscriptionDate) */     
 	ELSE
 		INSERT INTO Subscribers(SubscriberID, SubscriberName, SubscriptionDate) 
         SELECT COALESCE(MAX(SubscriberID), 0) + 1 , subName, CURDATE()  
@@ -22,14 +27,10 @@ BEGIN
 	
     END IF;
     
-    SELECT msg AS message;
+    SELECT msg AS message; /* printing the message */
 
 END $$
 
-DELIMITER ;
+DELIMITER ; /* changing delimeter back to ; */
 
-CALL AddSubscriberIfNotExists('Jon Snow');
-
--- SELECT * FROM Subscribers;
--- SHOW FULL PROCESSLIST;
--- SHOW TRIGGERS WHERE `Table` = 'Subscribers';
+-- CALL AddSubscriberIfNotExists('Monkey D. Luffy'); /* calling the procedure */
